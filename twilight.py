@@ -11,7 +11,8 @@ import geocoding
 def to_time(timestring):
     """Returns a datetime.datetime object, given a string representing time in
     the format "HH:MM:SS AM/PM", e.g. "11:23:27 PM" or "12:14:46 AM"."""
-    return datetime.strptime(timestring, "%I:%M:%S %p")
+    dt = datetime.strptime(timestring+" 2000", "%I:%M:%S %p %Y")
+    return dt
 
 
 def local_time(t):
