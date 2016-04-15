@@ -5,6 +5,7 @@ import urllib2
 import json
 import sys
 from datetime import datetime, timedelta
+import geocoding
 
 
 def to_time(timestring):
@@ -21,16 +22,26 @@ def local_time(t):
 
 # IIIT Hyderabad Latitude-Longitude (in degrees)
 # date format: "YYYY-MM-DD"
+place = "IIIT Hyderabad"
 lat = 17.4472
 lng = 78.3488
 timezone = "UTC+5:30"
 date = "today"
 
-# # London Latitude-Longitude (in degrees)
-# lat = 36.720160
-# lng = -4.420340
-# timezone = "UTC+00:00"
-# date = "today"
+if len(sys.argv) > 1:
+    try:
+        place = sys.argv[1]
+        lat, lng = geocoding.getlatlng(place)
+    except:
+        pass
+    try:
+        timezone = sys.argv[2]
+    except:
+        pass
+    try:
+        date = sys.argv[3]
+    except:
+        pass
 
 # Formatting date to be suitable for the GET request
 date_suffix = ""
@@ -68,6 +79,8 @@ else:  # contents['status'] == "OK"
 r = contents['results']
 
 # Print the results
+print
+print "In " + place + ","
 print
 print "Astronomical Twilight Begins:\t\t" + \
     local_time(to_time(r['astronomical_twilight_begin']) + td)
